@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Slide Show Game</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    text-align: center;
+    background: #fff;
+    padding-top: 30px;
+  }
+
+  h1 {
+    display: inline-block;
+    font-weight: 300;
+    font-size: 32px;
+    color: #333;
+    border-bottom: 2px solid #29b6f6;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+  }
+  h1 span {
+    font-weight: 700;
+    color: #111;
+  }
+
+  .slider-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  #slide {
+    width: 450px;
+    height: 340px;
+    object-fit: cover;
+    border: 6px solid #ffc400;
+    border-radius: 4px;
+  }
+
+  .buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  button {
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 12px 22px;
+    border-radius: 6px;
+    color: #fff;
+    transition: opacity 0.2s;
+  }
+  button:hover { opacity: 0.85; }
+
+  .nav-btn {
+    background: #ffc400;
+    font-weight: bold;
+    padding: 12px 20px;
+  }
+
+  #playBtn { background: #2e7d32; }
+  #stopBtn { background: #e53935; }
+</style>
+</head>
+<body>
+
+  <h1>Slide Show <span>Game</span></h1>
+
+  <div class="slider-wrap">
+    <img id="slide" src="images/1.jpg" alt="slide">
+  </div>
+
+  <div class="buttons">
+    <button id="prevBtn" class="nav-btn">&lt;</button>
+    <button id="playBtn">play</button>
+    <button id="stopBtn">stop</button>
+    <button id="nextBtn" class="nav-btn">&gt;</button>
+  </div>
+
+<script>
+  const images = [
+    "images/1.jpg",
+    "images/2.jpg",
+    "images/3.jpg",
+    "images/4.jpg"
+  ]; // حط هنا أسماء صورك المحليه بالترتيب
+
+  let current = 0;
+  let intervalId = null;
+
+  const slide = document.getElementById("slide");
+
+  function showImage(index) {
+    slide.src = images[index];
+  }
+
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    current = (current + 1) % images.length;
+    showImage(current);
+  });
+
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    current = (current - 1 + images.length) % images.length;
+    showImage(current);
+  });
+
+  document.getElementById("playBtn").addEventListener("click", () => {
+    if (intervalId) return;
+    intervalId = setInterval(() => {
+      current = (current + 1) % images.length;
+      showImage(current);
+    }, 1500);
+  });
+
+  document.getElementById("stopBtn").addEventListener("click", () => {
+    clearInterval(intervalId);
+    intervalId = null;
+  });
+</script>
+
+</body>
+</html>
